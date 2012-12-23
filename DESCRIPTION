@@ -1,0 +1,16 @@
+Package: Revil
+Maintainer: Christoph Waldhauser <christoph.waldhauser@wu.ac.at>
+Author: Christoph Waldhauser <christoph.waldhauser@wu.ac.at>
+Version: 0.1
+License: GPL-3
+Title: Zombie outbreak simulator for the analysis of opinion propagation
+Description: Revil is a simulator that simulates how a deadly disease
+    reaps through a population. There are two different virii included
+    that are suitable to model the spread of a real disease and
+    opinions, respectively. There is also a framework to analyse the
+    effect of possible treatments to the disease.
+URL: http://knutur.at/Revil
+Depends: R (>= 2.11.0)
+Suggests: foreach
+Collate:
+    'Revil-package.R'
