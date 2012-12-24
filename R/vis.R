@@ -11,6 +11,8 @@
 ##' population (Hs and Zs) or just the Zs.
 ##' @title Kaplan-Meier curves for C-Virus median infection rates
 ##' @param res the result data frame of a simulation
+##' @param Zs.only if TRUE, limit analysis to the Z part of the
+##'        population only
 ##' @return nothing
 ##' @author Christoph Waldhauser
 plot.mir <- function(res, Zs.only=FALSE) {

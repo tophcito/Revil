@@ -10,7 +10,13 @@ Description: Revil is a simulator that simulates how a deadly disease
     opinions, respectively. There is also a framework to analyse the
     effect of possible treatments to the disease.
 URL: http://knutur.at/Revil
-Depends: R (>= 2.11.0)
-Suggests: foreach
+Depends:
+    R (>= 2.11.0)
+Suggests:
+    foreach
 Collate:
     'Revil-package.R'
+    'disease.R'
+    'treatment.R'
+    'sim.R'
+    'vis.R'
