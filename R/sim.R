@@ -135,6 +135,7 @@ evalParam <- function(param="virulence", range=c(0.1, 0.5, 1),
   }
   param.iter <- as.list(range)
   this.params <- sim.params
+  if (is.null(sim.params)) this.params <- as.list(this.params)
 
   res <- lapply(param.iter, function(iter) {
     this.params[[param]] <- iter
