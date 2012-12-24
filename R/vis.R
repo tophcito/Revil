@@ -10,12 +10,20 @@
 ##' If selected, these curves are produced either for the entire
 ##' population (Hs and Zs) or just the Zs.
 ##' @title Kaplan-Meier curves for C-Virus median infection rates
-##' @param res the result data frame of a simulation
+##' @method plot sim
+##' @param x the result of a simulation
+##' @param y not implemented
 ##' @param Zs.only if TRUE, limit analysis to the Z part of the
 ##'        population only
+##' @param ... currently ignored
 ##' @return nothing
 ##' @author Christoph Waldhauser
-plot.mir <- function(res, Zs.only=FALSE) {
+##' @export
+##' @examples
+##' t0 <- newPop("c", size=25)
+##' res <- runSim(t0, days=10, cure=rep(0, times=10))
+##' plot(res)
+plot.sim <- function(x, y=NULL, Zs.only=FALSE, ...) {
   if (Zs.only) {
     res <- apply(res, 1, function(day) {
       res <- day[day>0.75]

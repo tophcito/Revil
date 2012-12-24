@@ -1,0 +1,8 @@
+S3method(plot,sim)
+S3method(summary,pop)
+S3method(summary,sim)
+export(evalParam)
+export(newPop)
+export(progression.C)
+export(progression.D)
+export(runSim)

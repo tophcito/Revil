@@ -3,7 +3,7 @@
 \title{Simulation of C-Virus Zombies}
 \usage{
   runSim(start.pop, days, cure, verbose = TRUE,
-    params = list(virulence = 1, m.cont = 0.15, sd.cont = 0.05, ill.effect = 1.5, tol = 0.05))
+    params = NULL)
 }
 \arguments{
   \item{start.pop}{the initial population}
@@ -37,6 +37,13 @@
   progression.C() (virulence, m.cont, sd.cont) and the
   ill.effect and tol parameters of treat() can be set this
   way.
+}
+\examples{
+## create a population
+t0 <- newPop("c", size=20)
+
+## run a simulation over 15 days, with no cure
+res <- runSim(t0, 15, cure=rep(0, times=10))
 }
 \author{
   Christoph Waldhauser

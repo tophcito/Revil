@@ -19,9 +19,15 @@
 ##'               simulation. See Details.
 ##' @return a data frame with dimensions [days, nrow(start.pop)]
 ##' @author Christoph Waldhauser
+##' @export 
+##' @examples
+##' ## create a population
+##' t0 <- newPop("c", size=20)
+##'
+##' ## run a simulation over 15 days, with no cure
+##' res <- runSim(t0, 15, cure=rep(0, times=10))
 runSim <- function(start.pop, days, cure, verbose=TRUE,
-                   params=list(virulence=1, m.cont=0.15, sd.cont=0.05,
-                     ill.effect=1.5, tol=0.05)) {
+                   params=NULL) {
   ## running a simulation
   ## start.pop: the starting population
   ## days: the number of days to simulate
@@ -52,6 +58,7 @@ runSim <- function(start.pop, days, cure, verbose=TRUE,
     res <- rbind(res, active.t[,"status"])
   }
   if (verbose) message(" ")
+  class(res) <- c("sim", "data.frame")
   return(res)
 }
 
@@ -63,20 +70,25 @@ runSim <- function(start.pop, days, cure, verbose=TRUE,
 ##' days. Additionally, the first day where more than one Z occured
 ##' and the last day a H was observed, are returned.
 ##' @title Zombie Outbreak simulation summary
-##' @param res the result of a simulation run
+##' @method summary sim
+##' @param object the result of a simulation run
+##' @param ... currently ignored
 ##' @return a vector with the proportion of Zs (pZs) in and the mean
 ##' infection rate (mir) of the population.
 ##' @author Christoph Waldhauser
-summary.sim <- function(res) {
+##' @export 
+summary.sim <- function(object, ...) {
   ## summarises the results of a simulation
+  res <- as.data.frame(object)
   pZs <- apply(res, 1,
                     function(day) sum(day>0.75)/length(day))
   mir <- apply(res, 1,
                     function(day) quantile(day, prob=0.5))
   fZd <- which.max(apply(res, 1, function(day) sum(day>0.75))==2)
   lHd <- which.max(pZs==1)
-  res <- c(mean(pZs), mean(mir), fZd, lHd)
+  res <- list(mean(pZs), mean(mir), as.integer(fZd), as.integer(lHd))
   names(res) <- c("pZs", "mir", "fZd", "lHd")
+  
   return(res)
 }
 
@@ -110,12 +122,16 @@ summary.sim <- function(res) {
 ##' observed (fZd) and the last day a H was observed (lHd) are
 ##' returned.
 ##' @author Christoph Waldhauser
+##' @export 
+##' @examples \dontrun{
+##' ## Test the effect of different settings for m.cont
+##' res <- evalParam(param="m.cont", range=c(0.15, 0.75), cure=rep(0, times=10))
+##' }
 evalParam <- function(param="virulence", range=c(0.1, 0.5, 1),
                       replications=5, start.pop=NULL, days=500, cure,
-                      sim.params=list(virulence=1, m.cont=0.15, sd.cont=0.05,
-                        ill.effect=1.5, tol=0.05)) {
+                      sim.params=NULL) {
   if (is.null(start.pop)) {
-    start.pop <- data.frame(status=c(rep(0, times=99), 1))
+    start.pop <- newPop("c", size=100)
   }
   param.iter <- as.list(range)
   this.params <- sim.params

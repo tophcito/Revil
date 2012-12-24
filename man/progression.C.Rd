@@ -53,6 +53,13 @@
   towards the mean of the H population, and the status of
   each non-attacked Z towards the mean of the Z population.
 }
+\examples{
+## create a population size 10
+t0 <- newPop("c", size=20)
+
+## have it experience one day of C-Virus spreading
+t1 <- progression.C(t0)
+}
 \author{
   Christoph Waldhauser
 }

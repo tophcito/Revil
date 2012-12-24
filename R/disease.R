@@ -18,6 +18,13 @@
 ##' @return the statuses of all individuals in a population after all
 ##'         interactions have taken place.
 ##' @author Christoph Waldhauser
+##' @export
+##' @examples
+##' ## create a population size 10
+##' t0 <- newPop("d", size=20)
+##'
+##' ## have it experience one day of D-Virus spreading
+##' t1 <- progression.D(t0)
 progression.D <- function(t0, virulence=0.2, verbose=FALSE) {
   nZombies <- sum(t0[,"status"])
   prob <- virulence*(nZombies/nrow(t0))
@@ -67,6 +74,13 @@ progression.D <- function(t0, virulence=0.2, verbose=FALSE) {
 ##' @return The statuses of all individuals in a population after all
 ##'         interactions have taken place.
 ##' @author Christoph Waldhauser
+##' @export
+##' @examples
+##' ## create a population size 10
+##' t0 <- newPop("c", size=20)
+##'
+##' ## have it experience one day of C-Virus spreading
+##' t1 <- progression.C(t0)
 progression.C <- function(t0, virulence=1, m.cont=0.15,
                              sd.cont=0.05, treshold=0.75) {
   t1 <- t0

@@ -20,3 +20,4 @@ Collate:
     'treatment.R'
     'sim.R'
     'vis.R'
+    'pop.R'

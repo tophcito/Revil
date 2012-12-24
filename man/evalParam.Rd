@@ -5,7 +5,7 @@ parameters.}
 \usage{
   evalParam(param = "virulence", range = c(0.1, 0.5, 1),
     replications = 5, start.pop = NULL, days = 500, cure,
-    sim.params = list(virulence = 1, m.cont = 0.15, sd.cont = 0.05, ill.effect = 1.5, tol = 0.05))
+    sim.params = NULL)
 }
 \arguments{
   \item{param}{The name of the parameter that is to be
@@ -49,6 +49,12 @@ parameters.}
   specifying the value it should take. Each evaluation is
   repeated a number of times (bootstrapping) to get an idea
   of the distribution of the results.
+}
+\examples{
+\dontrun{
+## Test the effect of different settings for m.cont
+res <- evalParam(param="m.cont", range=c(0.15, 0.75), cure=rep(0, times=10))
+}
 }
 \author{
   Christoph Waldhauser

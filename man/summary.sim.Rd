@@ -2,10 +2,12 @@
 \alias{summary.sim}
 \title{Zombie Outbreak simulation summary}
 \usage{
-  summary.sim(res)
+  \method{summary}{sim} (object, ...)
 }
 \arguments{
-  \item{res}{the result of a simulation run}
+  \item{object}{the result of a simulation run}
+
+  \item{...}{currently ignored}
 }
 \value{
   a vector with the proportion of Zs (pZs) in and the mean

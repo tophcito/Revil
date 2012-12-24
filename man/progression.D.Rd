@@ -32,6 +32,13 @@
   virus. In case of H being turned into a Z, H's status is
   changed from FALSE to TRUE.
 }
+\examples{
+## create a population size 10
+t0 <- newPop("d", size=20)
+
+## have it experience one day of D-Virus spreading
+t1 <- progression.D(t0)
+}
 \author{
   Christoph Waldhauser
 }
