@@ -68,13 +68,18 @@ runSim <- function(start.pop, days, cure, verbose=TRUE,
 ##' computing the median infection rate and the proportion of Zs in
 ##' the population, and then returning the mean values over all
 ##' days. Additionally, the first day where more than one Z occured
-##' and the last day a H was observed, are returned.
+##' and the last day a H was observed, are returned. Then also the
+##' distribution of the proportion of Zs in the population (in 10%
+##' steps) is returned.
 ##' @title Zombie Outbreak simulation summary
 ##' @method summary sim
 ##' @param object the result of a simulation run
 ##' @param ... currently ignored
 ##' @return a vector with the proportion of Zs (pZs) in and the mean
-##' infection rate (mir) of the population.
+##' infection rate (mir) of the population, along with the number of
+##' the first day a second Z was observed (fZd) and the last day a H
+##' was observed (lHd). Finally, the days the proportion of Zs exceeds
+##' percentiles (10 percent steps).
 ##' @author Christoph Waldhauser
 ##' @export 
 summary.sim <- function(object, ...) {
@@ -84,10 +89,15 @@ summary.sim <- function(object, ...) {
                     function(day) sum(day>0.75)/length(day))
   mir <- apply(res, 1,
                     function(day) quantile(day, prob=0.5))
-  fZd <- which.max(apply(res, 1, function(day) sum(day>0.75))==2)
-  lHd <- which.max(pZs==1)
-  res <- list(mean(pZs), mean(mir), as.integer(fZd), as.integer(lHd))
-  names(res) <- c("pZs", "mir", "fZd", "lHd")
+
+  pZdist <- cbind(seq(0, 1, by=0.1), match(0:10,
+                              findInterval(pZs, seq(0.1, 1, by=0.1))))
+  nZdist <- cbind(c(2, length(pZs)),
+                  match(1:2, findInterval(pZs*ncol(object), c(2, ncol(object)))))
+  fZd <- nZdist[1,2]
+  lHd <- nZdist[2,2]-1
+  res <- list(mean(pZs), mean(mir), as.integer(fZd), as.integer(lHd), pZdist)
+  names(res) <- c("pZs", "mir", "fZd", "lHd", "pZdist")
   
   return(res)
 }
@@ -144,7 +154,7 @@ evalParam <- function(param="virulence", range=c(0.1, 0.5, 1),
     for (i in 1:replications) {
       sim.res <- runSim(start.pop, days, cure, verbose=FALSE,
                         params=this.params)
-      this.res <- rbind(this.res, summary.sim(sim.res))
+      this.res <- rbind(this.res, unlist(summary.sim(sim.res)[1:4]))
     }
     colnames(this.res) <- c("pZs", "mir", "fZd", "lHd")
     return(this.res)

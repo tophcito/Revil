@@ -1,0 +1,20 @@
+*Urgent*
+
+* Beef up visualization
+
+
+*Later*
+
+* Introduce vulnerability model, ie: not everyone has the same
+    probability of falling ill after an attack; this mimicks how the
+    propagation of extreme political views is supported by underlaying
+    factors. Eg: xenophobia; a lack of education leads to a higher
+    probability of a person being a xenophobe. But lack of education
+    does not itself cause xenophobia nor is it a neccessary condition
+    for its occurrence. 
+* Introduce a network model, ie: not everyone has the same probability
+    of being attacked. This relates to the way communication in a more
+    narrow sense is being organized. While not directly relevant to
+    the study of extreme view propagation, it can be useful in
+    analyzing how to counteract negative views being expressed on
+    products in web 2.0
