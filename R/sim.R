@@ -32,6 +32,12 @@ runSim <- function(start.pop, days, cure, verbose=TRUE,
   ## start.pop: the starting population
   ## days: the number of days to simulate
   ## cure: the mixture of ten treatments
+  days <- round(days)
+  if (!any(class(start.pop)=="pop"))
+    stop("Parameter start.pop needs to be of class 'pop'.")
+  if (days < 1) stop("Parameter days needs to be a positive integer.")
+  if (days > 1000) warning("Simulating ", days, "(!) days.")
+  if (length(cure)!=10) stop("Parameter cure needs to contain 10 elements")
   p <-
     list(virulence=ifelse(is.null(params[["virulence"]]), 1, params[["virulence"]]),
          m.cont=ifelse(is.null(params[["m.cont"]]), 0.15, params[["m.cont"]]),
@@ -140,6 +146,13 @@ summary.sim <- function(object, ...) {
 evalParam <- function(param="virulence", range=c(0.1, 0.5, 1),
                       replications=5, start.pop=NULL, days=500, cure,
                       sim.params=NULL) {
+  if (!(param %in% c("virulence", "m.cont", "sd.cont", "ill.effect", "tol")))
+    stop("Parameter param needs to be one of 'virulence', 'm.cont', 'sd.cont', 'ill.effect', 'tol'.")
+  if (replications<1) stop("Parameter replications needs to be a positive integer.")
+  if (replications>25) warning("Replicating each simulation ", replications, "(!) times.")
+  if (days < 1) stop("Parameter days needs to be a positive integer.")
+  if (days > 1000) warning("Simulating ", days, "(!) days.")
+  if (length(cure)!=10) stop("Parameter cure needs to contain 10 elements") 
   if (is.null(start.pop)) {
     start.pop <- newPop("c", size=100)
   }

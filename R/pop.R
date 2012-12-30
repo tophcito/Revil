@@ -20,15 +20,21 @@
 ##' t0 <- newPop("c")
 ##' t1 <- newPop("d", size=50, z.prop=0.5) 
 newPop <- function(type=c("c", "d"), size=100, z.prop=1/size) {
+  size <- round(size)
+  if (size < 1) stop("Size needs to be a positive integer")
+  if (size > 5000) warning("You specified a very large population")
+  if (z.prop<0 | z.prop >1) stop("Parameter z.prop needs to be in 0:1")
   nZ <- z.prop * size
   nH <- size - nZ
   status <- c(rep(0, times=nH), rep(1, times=nZ))
   if (type=="c") {
     pop <- data.frame(status=status)
     class.string <- c("c", "pop", "data.frame")
-  } else {
+  } else if (type=="d") {
     pop <- data.frame(status=as.logical(status))
     class.string <- c("d", "pop", "data.frame")
+  } else {
+    stop("Type needs to be 'c' for continous or 'd' for dichotmous virus models.")
   }
   class(pop) <- class.string
   return(pop)
@@ -47,6 +53,8 @@ newPop <- function(type=c("c", "d"), size=100, z.prop=1/size) {
 ##' @author Christoph Waldhauser
 ##' @export
 summary.pop <- function(object, ...) {
+  if (!any(class(object) == "pop"))
+    stop("Parameter object needs to be of class 'pop'.")
   status <- object$status
   size <- length(status)
   type <- ifelse(is.logical(status), "D", "C")

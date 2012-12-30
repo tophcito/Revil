@@ -26,6 +26,8 @@
 ##' ## have it experience one day of D-Virus spreading
 ##' t1 <- progression.D(t0)
 progression.D <- function(t0, virulence=0.2, verbose=FALSE) {
+  if (!any(class(t0)=="pop")) stop("Parameter t0 needs to be of class pop")
+  if (virulence < 0 | virulence > 1) stop("Parameter virulence needs to be in 0:1")
   nZombies <- sum(t0[,"status"])
   prob <- virulence*(nZombies/nrow(t0))
   if (verbose) message(paste("Prob:", prob))
@@ -33,6 +35,7 @@ progression.D <- function(t0, virulence=0.2, verbose=FALSE) {
   t1[!t0[,"status"],"status"] <- sample(c(TRUE, FALSE), size=nrow(t0)-nZombies,
                                         prob=c(prob, 1-prob),
                                         replace=TRUE)
+  class(t1) <- c("d", "pop", "data.frame")
   return(t1)
 }
 
@@ -83,6 +86,9 @@ progression.D <- function(t0, virulence=0.2, verbose=FALSE) {
 ##' t1 <- progression.C(t0)
 progression.C <- function(t0, virulence=1, m.cont=0.15,
                              sd.cont=0.05, treshold=0.75) {
+  if (!any(class(t0)=="pop")) stop("Parameter t0 needs to be of class pop")
+  if (virulence < 0 | virulence > 1) stop("Parameter virulence needs to be in 0:1")
+  if (treshold < 0 | treshold > 1) stop("Parameter treshold needs to be in 0:1")
   t1 <- t0
   isZombie <- t0[,"status"]>treshold
   human.mean <- mean(t0[!isZombie, "status"])
@@ -119,5 +125,6 @@ progression.C <- function(t0, virulence=1, m.cont=0.15,
   isNonAttackedZ <- isZombie & !isAttackedZ
   t1[isNonAttackedZ, "status"] <- t0[isNonAttackedZ, "status"] +
     (zombie.mean - t0[isNonAttackedZ, "status"])/2
-    return(t1)
+  class(t1) <- c("c", "pop", "data.frame")
+  return(t1)
 }

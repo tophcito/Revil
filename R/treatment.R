@@ -26,7 +26,9 @@ treat <- function(status, strength, ill.effect=1.5, tol=0.05) {
   ##      needs to be close to strength for cure to have positive
   ##      effect 
   ## Value: new status of individual
-
+  if (status<0 | status>1) stop("Parameter status needs to be in 0:1")
+  if (strength<0 | strength>1) stop("Parameter strength needs to be in 0:1")
+  if (tol<0 | tol>1) stop("Parameter tol needs to be in 0:1")
   ## if strength is close to status, status is reduced, else increased
   new.status <- status
   diff <- abs(status-strength)
@@ -72,6 +74,12 @@ cure <- function(population, cure, ill.effect=1.5, tol=0.05) {
   ## cure: for now, a vector of length 10, given the probability of
   ##          a counter-measure being applied
   ## Value: the population statuses, after the cure has been applied
+  if (!any(class(population)=="pop"))
+    stop("Parameter population needs to be of class 'pop'.")
+  if (length(cure)!=10)
+    stop("Parameter cure needs to contain 10 elements.")
+  if (tol<0 | tol>1) stop("Parameter tol needs to be in 0:1")
+
   stat <- population[,"status"]
   if (any(cure!=0)) {
   ## assumption: Zs > 0.75 cannot be treated (if tol==0.25)
@@ -88,5 +96,7 @@ cure <- function(population, cure, ill.effect=1.5, tol=0.05) {
   } else {
     new.pop <- stat
   }
-  return(data.frame(status=new.pop))
+  res <- data.frame(status=new.pop)
+  class(res) <- c("c", "pop", "data.frame")
+  return(res)
 }
