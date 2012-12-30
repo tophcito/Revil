@@ -1,7 +1,12 @@
 *Urgent*
 
 * Beef up visualization
-
+* Include error checking arguments to functions/methods
+* Change runSim() so that it (optionally) takes a list of treatments, 
+    that are to be used at specific ranges in time. Ie: 
+    treatment=list(0.1=rep(0.1, times=10), 0.9=c(rep(0, times=9), 1))
+    for no treatment until 10% of days have passed, first treatment for 
+    days 11-89% of days and last treatment for last 10% of days.
 
 *Later*
 
