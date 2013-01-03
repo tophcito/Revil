@@ -1,7 +1,6 @@
 *Urgent*
 
 * Beef up visualization
-* Include error checking arguments to functions/methods
 * Change runSim() so that it (optionally) takes a list of treatments, 
     that are to be used at specific ranges in time. Ie: 
     treatment=list(0.1=rep(0.1, times=10), 0.9=c(rep(0, times=9), 1))
