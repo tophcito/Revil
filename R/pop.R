@@ -13,20 +13,34 @@
 ##'        population
 ##' @param size the intended size of the population
 ##' @param z.prop the proportion of Zs in the population
+##' @param h.spread the range of the uniform distribution from which
+##' the healthy part of the population is being generated. The default
+##' value of c(0,0) indicates that no healthy humans are infected at
+##' all. This parameter is ignored, if type="d".
+##' @param z.spread the range of the uniform distribution from which
+##' the Z part of the population is being generated. The default value
+##' of c(1,1) indicates that all zombies are infected with the maximum
+##' possible infection status of 1. This parameter is ignored, if
+##' type="d".
 ##' @return a population 
 ##' @author Christoph Waldhauser
 ##' @export 
 ##' @examples
 ##' t0 <- newPop("c")
-##' t1 <- newPop("d", size=50, z.prop=0.5) 
-newPop <- function(type=c("c", "d"), size=100, z.prop=1/size) {
+##' t1 <- newPop("d", size=50, z.prop=0.5)
+newPop <- function(type=c("c", "d"), size=100, z.prop=1/size,
+                   h.spread=c(0, 0), z.spread=c(1, 1)) {
   size <- round(size)
   if (size < 1) stop("Size needs to be a positive integer")
   if (size > 5000) warning("You specified a very large population")
   if (z.prop<0 | z.prop >1) stop("Parameter z.prop needs to be in 0:1")
+  if (h.spread[1]<0 | h.spread[2]>1) stop("Parameter h.spread needs to be in 0:1")
+  if (z.spread[1]<0 | z.spread[2]>1) stop("Parameter z.spread needs to be in 0:1")
   nZ <- z.prop * size
   nH <- size - nZ
   status <- c(rep(0, times=nH), rep(1, times=nZ))
+  status <- c(runif(nH, h.spread[1], h.spread[2]),
+              runif(nZ, z.spread[1], z.spread[2]))
   if (type=="c") {
     pop <- data.frame(status=status)
     class.string <- c("c", "pop", "data.frame")
@@ -52,6 +66,7 @@ newPop <- function(type=c("c", "d"), size=100, z.prop=1/size) {
 ##' @return a list with summary information
 ##' @author Christoph Waldhauser
 ##' @export
+
 summary.pop <- function(object, ...) {
   if (!any(class(object) == "pop"))
     stop("Parameter object needs to be of class 'pop'.")
