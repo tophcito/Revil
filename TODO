@@ -1,5 +1,9 @@
 *Urgent*
 
+* Refacturing
+    Rename the simulators concept of a population from population to
+    society to avoid clashing with the notion of a population in
+    evolutionary computing.
 * Beef up visualization
 * Change runSim() so that it (optionally) takes a list of treatments, 
     that are to be used at specific ranges in time. Ie: 

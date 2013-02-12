@@ -1,7 +1,7 @@
 Package: Revil
 Maintainer: Christoph Waldhauser <christoph.waldhauser@wu.ac.at>
 Author: Christoph Waldhauser <christoph.waldhauser@wu.ac.at>
-Version: 0.1
+Version: 0.3
 Date: 2013-01-03
 License: GPL-3
 Title: Zombie outbreak simulator for the analysis of opinion propagation
